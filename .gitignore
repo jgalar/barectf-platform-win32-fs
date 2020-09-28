@@ -1,0 +1,8 @@
+*.o
+*.exe
+build.sh
+.vscode/*
+barectf.h
+barectf-bitfield.h
+barectf.c
+compile_commands.json

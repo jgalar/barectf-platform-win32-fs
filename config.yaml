@@ -1,0 +1,132 @@
+--- !<tag:barectf.org,2020/3/config>
+
+# Configuration's trace
+trace:
+  # Type of the trace
+  type:
+    # Add standard field type aliases
+    $include:
+      - stdint.yaml
+      - stdreal.yaml
+      - stdmisc.yaml
+      - lttng-ust-log-levels.yaml
+    $field-type-aliases:
+      state:
+        class: unsigned-enumeration
+        size: 8
+        mappings:
+          NEW: [0]
+          TERMINATED: [1]
+          READY: [2]
+          RUNNING: [3]
+          WAITING: [4]
+
+    # Native byte order is little-endian
+    native-byte-order: little-endian
+
+    # One clock type
+    clock-types:
+      # The Win32 fs platform requires a clock type named `perf_counter`
+      # which has a 1-GHz frequency and the `uint64_t` C type.
+      #
+      # This frequency is used since the actual frequency of the
+      # Performance Counter is unknown at build time. It will
+      # be retrieved by QueryPerformanceFrequency at run-time
+      # and converted to this base.
+      perf_counter:
+        frequency: 10000000
+        $c-type: uint64_t
+
+    # One data stream type
+    data-stream-types:
+      # Stream type named `default`
+      default:
+        # Default data stream type
+        $is-default: true
+
+        # Default clock type: `perf_counter`
+        $default-clock-type-name: perf_counter
+
+        # Event record types
+        event-record-types:
+          simple_uint32:
+            log-level: CRIT
+            payload-field-type:
+              class: structure
+              members:
+                - value: uint32
+          simple_int16:
+            payload-field-type:
+              class: structure
+              members:
+                - value: int16
+          simple_float:
+            payload-field-type:
+              class: structure
+              members:
+                - value: float
+          simple_string:
+            log-level: WARNING
+            payload-field-type:
+              class: structure
+              members:
+                - value: string
+          simple_enum:
+            payload-field-type:
+              class: structure
+              members:
+                - value: state
+          context_no_payload:
+            specific-context-field-type:
+              class: structure
+              members:
+                - a: uint32
+                - b: string
+          no_context_no_payload: {}
+          a_few_fields:
+            payload-field-type:
+              class: structure
+              members:
+                - int32: int32
+                - uint16: uint16
+                - dbl: double
+                - str: string
+                - state: state
+          bit_packed_integers:
+            log-level: 513
+            payload-field-type:
+              class: structure
+              members:
+                - uint1:
+                    field-type:
+                      $inherit: bit-packed-uint8
+                      size: 1
+                - int1:
+                    field-type:
+                      $inherit: bit-packed-int8
+                      size: 1
+                - uint2:
+                    field-type:
+                      $inherit: bit-packed-uint8
+                      size: 2
+                - int3:
+                    field-type:
+                      $inherit: bit-packed-int8
+                      size: 3
+                - uint4:
+                    field-type:
+                      $inherit: bit-packed-uint8
+                      size: 4
+                - int5:
+                    field-type:
+                      $inherit: bit-packed-int8
+                      size: 5
+                - uint6:
+                    field-type:
+                      $inherit: bit-packed-uint8
+                      size: 6
+                - int7:
+                    field-type:
+                      $inherit: bit-packed-int8
+                      size: 7
+                - uint8: bit-packed-uint8

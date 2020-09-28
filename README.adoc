@@ -1,0 +1,40 @@
+// Render with Asciidoctor
+
+ifndef::env-github[]
+:toc: left
+endif::env-github[]
+
+= barectf-platform-win32-fs
+28 September 2020
+Jérémie Galarneau
+
+image::https://barectf.org/barectf-logo.svg[{nbsp}]
+
+[.lead]
+This repository contains a https://barectf.org/[**_barectf_**] platform implementation
+allowing the serialization of https://diamon.org/ctf/[CTF] events from Win32 application.
+
+== Building barectf-platform-win32-fs on Linux
+
+*While this platform targets Windows, it is developed on Linux. As such, the following
+instructions assume a Linux system with Docker.*
+
+First, bootstrap your environment by running the `bootsrap.sh` script. This script
+will build a Docker image that allows the cross compilation of Windows executables.
+
+[source,bash]
+----
+# Setup the cross-compilation environment in a Docker image
+$ ./bootstrap.sh
+----
+
+You should now find a build script, aptly named `build.sh`, at the root of the repository.
+To build the platform and test program, enter the development environment and issue the
+`make` command.
+
+[source,bash]
+----
+$ ./build.sh bash
+$ make
+----
+
