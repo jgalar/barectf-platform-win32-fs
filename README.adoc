@@ -12,7 +12,7 @@ image::https://barectf.org/barectf-logo.svg[{nbsp}]
 
 [.lead]
 This repository contains a https://barectf.org/[**_barectf_**] platform implementation
-allowing the serialization of https://diamon.org/ctf/[CTF] events from Win32 application.
+allowing the serialization of https://diamon.org/ctf/[CTF] events from Win32 applications.
 
 == Building barectf-platform-win32-fs on Linux
 
